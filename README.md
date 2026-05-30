@@ -44,5 +44,5 @@ Fields required: `name`, `email`, `enquiry`. Add a hidden `honeypot` field (left
 
 | Variable | Description |
 |----------|-------------|
-| `ANTHROPIC_API_KEY` | Your Anthropic API key |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | Free key from [aistudio.google.com](https://aistudio.google.com) |
 | `ALLOWED_ORIGIN` | Your Webflow site URL (CORS guard) |

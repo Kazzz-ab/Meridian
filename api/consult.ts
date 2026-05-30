@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { validateBody, checkRateLimit } from '../lib/validate.js';
-import { callClaude } from '../lib/claude.js';
+import { callGemini } from '../lib/gemini.js';
 
 function applyCors(req: VercelRequest, res: VercelResponse): boolean {
   const origin = req.headers.origin ?? '';
@@ -41,7 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const result = await callClaude(validation.data);
+    const result = await callGemini(validation.data);
     return res.status(200).json({ acknowledgement: result.acknowledgement });
   } catch (err) {
     console.error('Claude call failed:', err);
