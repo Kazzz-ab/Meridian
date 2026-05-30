@@ -1,10 +1,13 @@
 # meridian-consult-service
 
-Serverless function that powers the AI consultation form on the Meridian Webflow site.
+**Live:** [meridian-consult-service.vercel.app](https://meridian-consult-service.vercel.app)
+
+Serverless function + static site for Meridian — a professional services consultancy. The AI consultation form validates leads, calls Gemini, and returns a tailored acknowledgement plus an internal routing summary.
 
 ## What it does
 
-Accepts a POST from the Webflow contact form, validates the payload, calls Gemini, and returns:
+Accepts a POST from the contact form, validates the payload, calls Gemini, and returns:
+
 - `acknowledgement` — a warm, tailored reply shown to the visitor
 - `routingSummary` — internal category/urgency/service notes for the team
 
@@ -34,7 +37,8 @@ Set `GOOGLE_GENERATIVE_AI_API_KEY` and `ALLOWED_ORIGIN` in the Vercel project en
 ## Wiring to Webflow
 
 In the Webflow `ConsultationForm` symbol, set the form action to your deployed function URL:
-```
+
+```text
 https://your-project.vercel.app/api/consult
 ```
 
@@ -43,6 +47,6 @@ Fields required: `name`, `email`, `enquiry`. Add a hidden `honeypot` field (left
 ## Environment variables
 
 | Variable | Description |
-|----------|-------------|
+| --- | --- |
 | `GOOGLE_GENERATIVE_AI_API_KEY` | Free key from [aistudio.google.com](https://aistudio.google.com) |
-| `ALLOWED_ORIGIN` | Your Webflow site URL (CORS guard) |
+| `ALLOWED_ORIGIN` | Your site URL (CORS guard) |
