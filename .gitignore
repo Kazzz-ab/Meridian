@@ -1,0 +1,15 @@
+# Env files
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Build artifacts
+.vercel
+dist
+node_modules
+
+# IDE
+.vscode/settings.json
+.idea
