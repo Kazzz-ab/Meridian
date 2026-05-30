@@ -4,8 +4,8 @@ import { callGemini } from '../lib/gemini.js';
 
 function applyCors(req: VercelRequest, res: VercelResponse): boolean {
   const origin = req.headers.origin ?? '';
-  const allowed = process.env.ALLOWED_ORIGIN ?? '';
-  if (allowed && origin !== allowed) return false;
+    const allowed = process.env.ALLOWED_ORIGIN;
+    if (!allowed || origin !== allowed) return false;
   if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
