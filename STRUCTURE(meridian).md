@@ -50,7 +50,7 @@ meridian-consult-service/
 └── lib/
     ├── prompt.ts            # Claude prompt + structured output schema (routing categories)
     ├── validate.ts          # zod body validation + rate limit + honeypot
-    └── claude.ts            # Anthropic client + parse/validate response
+    └── gemini.ts            # Gemini client + parse/validate response
 ```
 
 ## Notes

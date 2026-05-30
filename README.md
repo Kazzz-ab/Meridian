@@ -4,7 +4,7 @@ Serverless function that powers the AI consultation form on the Meridian Webflow
 
 ## What it does
 
-Accepts a POST from the Webflow contact form, validates the payload, calls Claude, and returns:
+Accepts a POST from the Webflow contact form, validates the payload, calls Gemini, and returns:
 - `acknowledgement` — a warm, tailored reply shown to the visitor
 - `routingSummary` — internal category/urgency/service notes for the team
 
@@ -13,7 +13,7 @@ Accepts a POST from the Webflow contact form, validates the payload, calls Claud
 ```bash
 npm install
 cp .env.example .env.local
-# fill in ANTHROPIC_API_KEY and ALLOWED_ORIGIN
+# fill in GOOGLE_GENERATIVE_AI_API_KEY and ALLOWED_ORIGIN
 ```
 
 ## Run locally
@@ -29,7 +29,7 @@ npm run dev
 vercel --prod
 ```
 
-Set `ANTHROPIC_API_KEY` and `ALLOWED_ORIGIN` in the Vercel project environment variables dashboard.
+Set `GOOGLE_GENERATIVE_AI_API_KEY` and `ALLOWED_ORIGIN` in the Vercel project environment variables dashboard.
 
 ## Wiring to Webflow
 

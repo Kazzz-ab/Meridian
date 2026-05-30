@@ -44,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const result = await callGemini(validation.data);
     return res.status(200).json({ acknowledgement: result.acknowledgement });
   } catch (err) {
-    console.error('Claude call failed:', err);
+    console.error('Gemini call failed:', err);
     return res.status(502).json({ error: 'Service temporarily unavailable' });
   }
 }
