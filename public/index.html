@@ -18,13 +18,25 @@
       <a href="index.html" class="nav-logo">Meridian</a>
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
+        <li><a href="#how-we-work">How We Work</a></li>
         <li><a href="#case-studies">Case Studies</a></li>
         <li><a href="#team">About</a></li>
         <li><a href="#testimonials">Clients</a></li>
       </ul>
       <a href="contact.html" class="btn btn-gold">Get Started</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#how-we-work">How We Work</a>
+    <a href="#case-studies">Case Studies</a>
+    <a href="#team">About</a>
+    <a href="#testimonials">Clients</a>
+    <a href="contact.html" class="btn btn-gold">Get Started</a>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -48,6 +60,20 @@
         <span class="stat-value">48hr</span>
         <span class="stat-label">Initial Response</span>
       </div>
+    </div>
+  </div>
+
+  <!-- SECTORS STRIP -->
+  <div class="sectors-strip">
+    <div class="sectors-inner">
+      <span class="sectors-label">Sectors</span>
+      <span class="sector-tag">SaaS &amp; Technology</span>
+      <span class="sector-tag">Financial Services</span>
+      <span class="sector-tag">Professional Services</span>
+      <span class="sector-tag">Logistics &amp; Operations</span>
+      <span class="sector-tag">Legal &amp; Compliance</span>
+      <span class="sector-tag">Healthcare</span>
+      <span class="sector-tag">E-commerce</span>
     </div>
   </div>
 
@@ -158,6 +184,33 @@
     </div>
   </section>
 
+  <!-- HOW WE WORK -->
+  <section class="section" id="how-we-work">
+    <div class="container">
+      <div class="section-header">
+        <h2>How We Work</h2>
+        <a href="contact.html" class="link-gold">Start the process →</a>
+      </div>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-number">Step 01</div>
+          <h3>Discovery Call</h3>
+          <p>A 45-minute call with a senior partner — no junior handoff. We listen, ask the right questions, and tell you honestly whether we can help. No charge, no obligation.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">Step 02</div>
+          <h3>Scoped Proposal</h3>
+          <p>Within 48 hours you receive a written proposal: clear objectives, defined deliverables, a timeline, and a fixed fee. No sliding scope, no surprise invoices.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">Step 03</div>
+          <h3>Focused Engagement</h3>
+          <p>We work alongside your team — not around them. Every engagement ends with a 90-day action plan your people can run independently. We build capability, not dependency.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- TESTIMONIALS -->
   <section class="section" id="testimonials">
     <div class="container">
@@ -246,9 +299,9 @@
 
   <!-- CTA -->
   <section class="cta-section">
-    <h2>Ready to scale?</h2>
-    <p>Engage our team to discuss your current operational friction points and strategic goals.</p>
-    <a href="contact.html" class="btn btn-gold btn-lg">Initiate Contact</a>
+    <h2>Ready to move faster?</h2>
+    <p>Book a free 45-minute discovery call with a senior partner. No junior handoff, no commitment until you're sure.</p>
+    <a href="contact.html" class="btn btn-gold btn-lg">Book a Free Consultation</a>
   </section>
 
   <!-- FOOTER -->
@@ -279,13 +332,26 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="contact.html">Get Started</a></li>
+          <li><a href="contact.html">Book a Consultation</a></li>
+          <li><a href="mailto:hello@meridian-advisory.com">hello@meridian-advisory.com</a></li>
         </ul>
       </div>
     </div>
   </footer>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <script>lucide.createIcons();</script>
+  <script>
+    lucide.createIcons();
+    const toggle = document.getElementById('navToggle');
+    const menu   = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      toggle.classList.remove('open');
+      menu.classList.remove('open');
+    }));
+  </script>
 </body>
 </html>

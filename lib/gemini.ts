@@ -23,12 +23,13 @@ export type ConsultResponse = z.infer<typeof consultResponseSchema>;
 
 export async function callGemini(input: {
     name: string;
+    company?: string;
     email: string;
     enquiry: string;
 }): Promise<ConsultResponse> {
     const result = await ai.models.generateContent({
           model: 'gemini-1.5-flash',
-          contents: buildPrompt(input.name, input.enquiry),
+          contents: buildPrompt(input.name, input.enquiry, input.company),
           config: {
                   responseMimeType: 'application/json',
                   responseSchema: {

@@ -17,21 +17,31 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">Meridian</a>
       <ul class="nav-links">
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Case Studies</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Insights</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#how-we-work">How We Work</a></li>
+        <li><a href="index.html#case-studies">Case Studies</a></li>
+        <li><a href="index.html#team">About</a></li>
       </ul>
       <a href="contact.html" class="btn btn-gold">Get Started</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#services">Services</a>
+    <a href="index.html#how-we-work">How We Work</a>
+    <a href="index.html#case-studies">Case Studies</a>
+    <a href="index.html#team">About</a>
+    <a href="contact.html" class="btn btn-gold">Get Started</a>
+  </div>
 
   <!-- CONTACT HERO -->
   <section class="contact-hero">
     <div class="container">
       <div class="contact-grid">
 
-        <!-- LEFT: heading + trust bullets -->
+        <!-- LEFT: heading + what happens next -->
         <div class="contact-left">
           <h1>Start your<br>transformation<br>today.</h1>
           <ul class="contact-bullets">
@@ -42,7 +52,7 @@
                   <polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
               </span>
-              Direct access to senior partners
+              Direct access to a senior partner — no junior handoff
             </li>
             <li class="contact-bullet">
               <span class="bullet-icon">
@@ -51,7 +61,7 @@
                   <polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
               </span>
-              Confidentiality guaranteed
+              Fixed-fee proposals — no surprises on the invoice
             </li>
             <li class="contact-bullet">
               <span class="bullet-icon">
@@ -60,9 +70,34 @@
                   <polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
               </span>
-              Tailored strategic assessment
+              No commitment until you've seen the proposal
             </li>
           </ul>
+
+          <div class="next-steps">
+            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-label);margin-bottom:0.25rem;">What Happens Next</div>
+            <div class="next-step">
+              <div class="next-step-num">1</div>
+              <div class="next-step-body">
+                <strong>We review your enquiry</strong>
+                <span>A senior partner reads every submission personally and responds within one business day.</span>
+              </div>
+            </div>
+            <div class="next-step">
+              <div class="next-step-num">2</div>
+              <div class="next-step-body">
+                <strong>45-minute discovery call</strong>
+                <span>We get into the detail of your challenge and tell you candidly whether we're the right fit.</span>
+              </div>
+            </div>
+            <div class="next-step">
+              <div class="next-step-num">3</div>
+              <div class="next-step-body">
+                <strong>Scoped proposal within 48 hrs</strong>
+                <span>Fixed objectives, defined deliverables, a timeline, and a fixed fee — before anything starts.</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- RIGHT: enquiry form -->
@@ -77,12 +112,16 @@
                 <input type="text" id="name" name="name" autocomplete="name" required>
               </div>
               <div class="form-group">
-                <label for="email">Email</label>
+                <label for="company">Company <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-label)">(optional)</span></label>
+                <input type="text" id="company" name="company" autocomplete="organization">
+              </div>
+              <div class="form-group">
+                <label for="email">Work Email</label>
                 <input type="email" id="email" name="email" autocomplete="email" required>
               </div>
               <div class="form-group">
-                <label for="enquiry">Enquiry</label>
-                <textarea id="enquiry" name="enquiry" required></textarea>
+                <label for="enquiry">Tell us about your challenge</label>
+                <textarea id="enquiry" name="enquiry" placeholder="What's the core problem you're trying to solve? The more context you give, the more useful our response." required></textarea>
               </div>
 
               <button type="submit" class="btn btn-gold btn-submit" id="submitBtn">Submit</button>
@@ -100,21 +139,26 @@
     </div>
   </section>
 
-  <!-- CALENDLY -->
-  <div class="calendly-section">
-    <div class="container">
-      <h3 class="calendly-heading">Prefer to schedule a call?</h3>
-      <div class="calendly-embed">
-        <!-- Replace with: <div class="calendly-inline-widget" data-url="https://calendly.com/your-link" style="min-width:320px;height:560px;"></div> -->
-        <div class="calendly-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
+  <!-- DIRECT CONTACT -->
+  <div class="direct-contact">
+    <div class="direct-contact-inner">
+      <h3>Prefer to reach us directly?</h3>
+      <p>For time-sensitive matters or if you'd rather skip the form, contact us by email. All enquiries are handled by a senior partner.</p>
+      <div class="direct-links">
+        <a href="mailto:hello@meridian-advisory.com" class="direct-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
           </svg>
-          <span>Calendly Embed Container</span>
-        </div>
+          hello@meridian-advisory.com
+        </a>
+        <a href="index.html#how-we-work" class="direct-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4M12 8h.01"/>
+          </svg>
+          See how we work
+        </a>
       </div>
     </div>
   </div>
@@ -124,7 +168,7 @@
     <div class="container footer-inner">
       <div class="footer-brand">
         <a href="index.html" class="nav-logo">Meridian</a>
-        <small>&copy; 2024 Meridian. All rights reserved.</small>
+        <small>&copy; 2026 Meridian. All rights reserved.</small>
       </div>
       <div class="footer-col">
         <ul>
@@ -151,6 +195,17 @@
   <script>
     lucide.createIcons();
 
+    const toggle = document.getElementById('navToggle');
+    const menu   = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      toggle.classList.remove('open');
+      menu.classList.remove('open');
+    }));
+
     const form        = document.getElementById('consultForm');
     const formCard    = document.getElementById('formCard');
     const formSuccess = document.getElementById('formSuccess');
@@ -164,8 +219,10 @@
       submitBtn.textContent = 'Sending…';
       submitBtn.disabled = true;
 
+      const companyVal = document.getElementById('company').value.trim();
       const payload = {
         name:     document.getElementById('name').value.trim(),
+        company:  companyVal || undefined,
         email:    document.getElementById('email').value.trim(),
         enquiry:  document.getElementById('enquiry').value.trim(),
         honeypot: form.elements['honeypot'].value,

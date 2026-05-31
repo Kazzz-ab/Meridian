@@ -2,12 +2,13 @@ import { z } from 'zod';
 
 const bodySchema = z.object({
     name: z.string().min(1).max(100),
+    company: z.string().max(120).optional(),
     email: z.string().email(),
     enquiry: z.string().min(10).max(2000),
     honeypot: z.string().max(0).optional(),
 });
 
-type ValidBody = { name: string; email: string; enquiry: string };
+type ValidBody = { name: string; company?: string; email: string; enquiry: string };
 
 export function validateBody(
     body: unknown
@@ -19,7 +20,8 @@ export function validateBody(
     if (result.data.honeypot) {
           return { success: false, error: 'Invalid submission' };
     }
-    return { success: true, data: result.data };
+    const { honeypot: _hp, ...rest } = result.data;
+    return { success: true, data: rest };
 }
 
 // In-memory rate limiter — resets on cold start, sufficient for a low-traffic form endpoint.
