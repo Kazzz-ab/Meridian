@@ -1,10 +1,10 @@
 # Meridian - Architecture
 
-> A professional-services website template (built in Webflow) with one custom touch: an **AI-powered consultation request form** backed by a small serverless function that calls Claude. Designed as a reusable template that reskins across industries (consulting, legal, financial advisory, agencies).
+> A professional-services website template (built in Webflow) with one custom touch: an **AI-powered consultation request form** backed by a small serverless function that calls Gemini. Designed as a reusable template that reskins across industries (consulting, legal, financial advisory, agencies).
 
 ## "Done" spec (v1 scope)
 
-A polished, responsive Webflow site with: a multi-service layout, trust signals, a case-study showcase (CMS-driven, with ROI metrics), and a lead form. The form differentiator: on submit, a serverless function sends the enquiry to Claude, which returns a tailored acknowledgement + an internal routing summary. Appointment booking and CRM are **embedded third-party tools**, not built. Deployed: Webflow hosting for the site, Vercel for the function.
+A polished, responsive Webflow site with: a multi-service layout, trust signals, a case-study showcase (CMS-driven, with ROI metrics), and a lead form. The form differentiator: on submit, a serverless function sends the enquiry to Gemini, which returns a tailored acknowledgement + an internal routing summary. Appointment booking and CRM are **embedded third-party tools**, not built. Deployed: Webflow hosting for the site, Vercel for the function.
 
 ## Two parts, two natures
 
@@ -18,8 +18,8 @@ Be honest in the case study: this is a **Webflow** piece. The engineering signal
 ## The AI consultation form (the one build)
 
 1. Webflow form posts to the Vercel function (`/api/consult`).
-2. Function validates input (name, email, enquiry), rate-limits, and calls Claude with a structured prompt.
-3. Claude returns: a warm, tailored acknowledgement shown to the visitor, and a concise internal **routing summary** (category, urgency, suggested service) for the business.
+2. Function validates input (name, email, enquiry), rate-limits, and calls Gemini with a structured prompt.
+3. Gemini returns: a warm, tailored acknowledgement shown to the visitor, and a concise internal **routing summary** (category, urgency, suggested service) for the business.
 4. Optional: pipe the lead + summary to a CRM/Sheet via Zapier/Make.
 
 Scope guard: this is a **one-day** build. The serverless function is small. Resist turning it into a chatbot.
@@ -42,7 +42,7 @@ Scope guard: this is a **one-day** build. The serverless function is small. Resi
 |----------|--------|-----|
 | Site | Webflow | Fast, polished, CMS-driven, no-code - the right tool for a marketing site |
 | AI form backend | Vercel serverless + TS | Smallest possible footprint for the one custom feature; keys server-side |
-| LLM | Claude API | Tailored acknowledgement + structured routing summary |
+| LLM | Gemini API | Tailored acknowledgement + structured routing summary |
 | Booking/CRM | Calendly + Zapier | Embed proven tools; do not rebuild commodity functionality |
 
 ## Risks & mitigations
