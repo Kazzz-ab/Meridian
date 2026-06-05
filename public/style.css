@@ -1,15 +1,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0c1117;
-  --bg-elevated: #131c2a;
-  --bg-card: #192334;
-  --border: #243044;
+  /* Deep-navy identity — distinct from portfolio's neutral #0A0A0B */
+  --bg: #05091a;
+  --bg-elevated: #0a1428;
+  --bg-card: #0e1e3a;
+  --border: #192f52;
   --gold: #f5c430;
   --gold-hover: #e6b420;
-  --text: #e8eef5;
-  --text-muted: #8499b0;
-  --text-label: #4e6070;
+  --text: #dce8f8;
+  --text-muted: #7090b8;
+  --text-label: #3a5878;
   --cyan: #4ecdc4;
   --radius: 6px;
   --container: 1200px;

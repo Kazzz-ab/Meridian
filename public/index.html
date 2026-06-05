@@ -433,135 +433,106 @@
       scrollTrigger: { trigger: '.cta-section', start: 'top 82%', once: true }
     });
 
-    // ── Three.js hero particle field ──────────────────────────────────────────
+    // ── Three.js — dual rotating icosahedra + star field ─────────────────────
+    // Unique to Meridian: geometric/corporate precision, not the portfolio's
+    // random particle scatter.
     (function initHeroCanvas() {
       const canvas  = document.getElementById('hero-canvas');
       const section = document.querySelector('.hero');
       if (!canvas || !section || !window.THREE) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (window.innerWidth < 600) return; // skip on small screens
+      if (window.innerWidth < 600) return;
 
       let W = section.offsetWidth;
       let H = section.offsetHeight;
 
-      const scene  = new THREE.Scene();
-      // Ortho camera: x ∈ [0,W], y ∈ [0,H] with y=H at top (Three.js y-up ≈ screen y-down flipped)
-      const camera = new THREE.OrthographicCamera(0, W, H, 0, 0.1, 10);
-      camera.position.z = 1;
+      const scene    = new THREE.Scene();
+      const camera   = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
+      camera.position.z = 6.5;
 
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
       renderer.setSize(W, H);
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 
-      // ── Particles ──
-      const N    = 90;
-      const GOLD = new THREE.Color(0xf5c430);
-      const CYAN = new THREE.Color(0x4ecdc4);
-      const DIM  = new THREE.Color(0x7a6118);
-
-      const pts = Array.from({ length: N }, (_, i) => ({
-        x:  Math.random() * W,
-        y:  Math.random() * H,
-        vx: (Math.random() - .5) * .55,
-        vy: (Math.random() - .5) * .55,
-        col: i % 8 === 0 ? CYAN : i % 4 === 0 ? DIM : GOLD,
-      }));
-
-      const posArr = new Float32Array(N * 3);
-      const colArr = new Float32Array(N * 3);
-      pts.forEach((p, i) => {
-        posArr[i*3] = p.x; posArr[i*3+1] = p.y; posArr[i*3+2] = 0;
-        p.col.toArray(colArr, i * 3);
+      // ── Primary icosahedron — gold wireframe ──
+      const icoGeo  = new THREE.IcosahedronGeometry(2.4, 2);
+      const wireGeo = new THREE.WireframeGeometry(icoGeo);
+      const wireMat = new THREE.LineBasicMaterial({
+        color: 0xf5c430, transparent: true, opacity: 0.11,
       });
+      const ico = new THREE.LineSegments(wireGeo, wireMat);
+      scene.add(ico);
 
-      const ptGeo = new THREE.BufferGeometry();
-      ptGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
-      ptGeo.setAttribute('color',    new THREE.BufferAttribute(colArr, 3));
-      const ptMat = new THREE.PointsMaterial({
-        size: 2.6, vertexColors: true, transparent: true, opacity: .5, sizeAttenuation: false,
+      // ── Inner icosahedron — cyan wireframe, counter-rotates ──
+      const ico2Geo  = new THREE.IcosahedronGeometry(1.35, 1);
+      const wire2Geo = new THREE.WireframeGeometry(ico2Geo);
+      const wire2Mat = new THREE.LineBasicMaterial({
+        color: 0x4ecdc4, transparent: true, opacity: 0.07,
       });
-      scene.add(new THREE.Points(ptGeo, ptMat));
+      const ico2 = new THREE.LineSegments(wire2Geo, wire2Mat);
+      scene.add(ico2);
 
-      // ── Lines ──
-      const MAX_LINES  = 200;
-      const linePosArr = new Float32Array(MAX_LINES * 6);
-      const lineGeo    = new THREE.BufferGeometry();
-      lineGeo.setAttribute('position', new THREE.BufferAttribute(linePosArr, 3));
-      lineGeo.setDrawRange(0, 0);
-      const lineMesh = new THREE.LineSegments(
-        lineGeo,
-        new THREE.LineBasicMaterial({ color: 0xf5c430, transparent: true, opacity: .09 })
-      );
-      scene.add(lineMesh);
+      // ── Background star field — spherically distributed ──
+      const STARS = 160;
+      const starPos = new Float32Array(STARS * 3);
+      for (let i = 0; i < STARS; i++) {
+        const r = 5 + Math.random() * 9;
+        const t = Math.random() * Math.PI * 2;
+        const p = Math.acos(2 * Math.random() - 1);
+        starPos[i*3]   = r * Math.sin(p) * Math.cos(t);
+        starPos[i*3+1] = r * Math.sin(p) * Math.sin(t);
+        starPos[i*3+2] = (Math.random() - .5) * 4;
+      }
+      const starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+      scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
+        color: 0xb8d4f0, size: 0.018, transparent: true, opacity: 0.28, sizeAttenuation: true,
+      })));
 
-      // ── Mouse repulsion ──
-      let mx = -9999, my = -9999;
+      // ── Mouse tilt ──
+      let targetRX = 0, targetRY = 0, currRX = 0, currRY = 0;
       section.addEventListener('mousemove', e => {
-        const r = canvas.getBoundingClientRect();
-        mx = e.clientX - r.left;
-        my = H - (e.clientY - r.top); // flip Y for Three.js y-up space
+        const r = section.getBoundingClientRect();
+        targetRY =  ((e.clientX - r.left) / W - .5) * 0.9;
+        targetRX = -((e.clientY - r.top)  / H - .5) * 0.6;
       });
-      section.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
+      section.addEventListener('mouseleave', () => { targetRX = 0; targetRY = 0; });
 
       // ── Animate ──
-      let rafId;
-      function tick() {
+      let autoY = 0, autoX = 0, lastT = 0, rafId;
+      function tick(t) {
         rafId = requestAnimationFrame(tick);
-        const pa = ptGeo.attributes.position;
+        const dt = Math.min((t - lastT) / 1000, 0.05);
+        lastT = t;
 
-        pts.forEach((p, i) => {
-          // Repel from cursor
-          const dx = p.x - mx, dy = p.y - my;
-          const d  = Math.hypot(dx, dy);
-          if (d < 95 && d > 0) {
-            const f = ((95 - d) / 95) * .42;
-            p.vx += (dx / d) * f;
-            p.vy += (dy / d) * f;
-          }
-          p.vx *= .97; p.vy *= .97;
+        autoY += dt * 0.2;
+        autoX += dt * 0.1;
 
-          // Clamp speed
-          const spd = Math.hypot(p.vx, p.vy);
-          if (spd > 2.2) { p.vx = p.vx / spd * 2.2; p.vy = p.vy / spd * 2.2; }
+        currRX += (targetRX - currRX) * 0.045;
+        currRY += (targetRY - currRY) * 0.045;
 
-          p.x += p.vx; p.y += p.vy;
+        // Outer: steady forward rotation + mouse tilt
+        ico.rotation.y = autoY + currRY;
+        ico.rotation.x = autoX + currRX;
 
-          // Bounce
-          if (p.x < 0)  { p.x = 0;  p.vx =  Math.abs(p.vx); }
-          if (p.x > W)  { p.x = W;  p.vx = -Math.abs(p.vx); }
-          if (p.y < 0)  { p.y = 0;  p.vy =  Math.abs(p.vy); }
-          if (p.y > H)  { p.y = H;  p.vy = -Math.abs(p.vy); }
+        // Inner: counter-rotates for a gyroscope feel
+        ico2.rotation.y = -(autoY * 0.65) + currRY * 1.3;
+        ico2.rotation.x = -(autoX * 0.8)  + currRX;
+        ico2.rotation.z =   autoY * 0.35;
 
-          pa.setXYZ(i, p.x, p.y, 0);
-        });
-        pa.needsUpdate = true;
-
-        // Draw connection lines
-        const la = lineGeo.attributes.position;
-        let li = 0;
-        outer: for (let i = 0; i < N; i++) {
-          for (let j = i + 1; j < N; j++) {
-            if (Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y) < 140) {
-              la.setXYZ(li * 2,     pts[i].x, pts[i].y, 0);
-              la.setXYZ(li * 2 + 1, pts[j].x, pts[j].y, 0);
-              if (++li >= MAX_LINES) break outer;
-            }
-          }
-        }
-        la.needsUpdate = true;
-        lineGeo.setDrawRange(0, li * 2);
+        // Breathe opacity
+        wireMat.opacity  = 0.09 + Math.sin(autoY * 1.1) * 0.03;
+        wire2Mat.opacity = 0.055 + Math.cos(autoY * 0.7) * 0.02;
 
         renderer.render(scene, camera);
       }
-      tick();
+      rafId = requestAnimationFrame(tick);
 
-      // ── Resize ──
       window.addEventListener('resize', () => {
         W = section.offsetWidth;
         H = section.offsetHeight;
         renderer.setSize(W, H);
-        camera.right = W;
-        camera.top   = H;
+        camera.aspect = W / H;
         camera.updateProjectionMatrix();
       });
     })();
