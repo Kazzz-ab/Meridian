@@ -7,7 +7,7 @@
   <meta name="description" content="Start your transformation. Send us an enquiry or schedule a call with a senior partner.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -192,6 +192,8 @@
   </footer>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script>
     lucide.createIcons();
 
@@ -205,6 +207,21 @@
       toggle.classList.remove('open');
       menu.classList.remove('open');
     }));
+
+    // ── GSAP entrance animations ──────────────────────────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.timeline({ delay: 0.1 })
+      .from('.contact-left h1',        { opacity: 0, y: 28, duration: 0.95, ease: 'power3.out' })
+      .from('.contact-bullets .contact-bullet',
+                                        { opacity: 0, x: -18, stagger: 0.1, duration: 0.65, ease: 'power2.out' }, '-=0.5')
+      .from('.next-steps .next-step',   { opacity: 0, y: 18, stagger: 0.12, duration: 0.6,  ease: 'power2.out' }, '-=0.3')
+      .from('#formCard',                { opacity: 0, y: 28, duration: 0.75, ease: 'power3.out' }, '-=0.7');
+
+    gsap.from('.direct-contact h3, .direct-contact p, .direct-link', {
+      opacity: 0, y: 20, stagger: 0.12, duration: 0.65, ease: 'power2.out',
+      scrollTrigger: { trigger: '.direct-contact', start: 'top 85%', once: true }
+    });
 
     const form        = document.getElementById('consultForm');
     const formCard    = document.getElementById('formCard');
