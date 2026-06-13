@@ -105,8 +105,8 @@ Set `GOOGLE_GENERATIVE_AI_API_KEY` and `ALLOWED_ORIGIN` in the Vercel project en
 
 | Variable | Description |
 | --- | --- |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | **Required.** Free key from [aistudio.google.com](https://aistudio.google.com) |
-| `ALLOWED_ORIGIN` | **Required.** Your deployed site URL (CORS guard) |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | **Required.** Free key from [aistudio.google.com](https://aistudio.google.com) — the form returns errors until this is set |
+| `ALLOWED_ORIGIN` | Recommended. Strict CORS allow-list (e.g. your site URL). If unset, the API falls back to same-origin only |
 | `UPSTASH_REDIS_REST_URL` | Optional. Enables durable, cross-instance rate limiting |
 | `UPSTASH_REDIS_REST_TOKEN` | Optional. REST token paired with the URL above |
 

@@ -2,12 +2,19 @@ import { GoogleGenAI } from '@google/genai';
 import { z } from 'zod';
 import { buildPrompt } from './prompt.js';
 
-const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-if (!apiKey) {
-  throw new Error('GOOGLE_GENERATIVE_AI_API_KEY environment variable is not set');
+// Lazily create the client so a missing key produces a clean, catchable error at
+// request time instead of throwing at module load (which crashes the whole
+// serverless function — CORS, validation, rate limit and all — on every request).
+let aiClient: GoogleGenAI | null = null;
+function getAI(): GoogleGenAI {
+  if (aiClient) return aiClient;
+  const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+  if (!apiKey) {
+    throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set');
+  }
+  aiClient = new GoogleGenAI({ apiKey });
+  return aiClient;
 }
-
-const ai = new GoogleGenAI({ apiKey });
 
 // Industry-agnostic intake categories — work for any service business.
 const CATEGORY = ['new_business', 'booking', 'quote', 'support', 'complaint', 'other'] as const;
@@ -52,7 +59,7 @@ export async function callGemini(input: {
   brand?: string;
   industry?: string;
 }): Promise<ConsultResult> {
-  const result = await ai.models.generateContent({
+  const result = await getAI().models.generateContent({
     model: 'gemini-1.5-flash',
     contents: buildPrompt({
       name: input.name,

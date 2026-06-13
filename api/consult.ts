@@ -4,10 +4,29 @@ import { checkRateLimit } from '../lib/ratelimit.js';
 import { callGemini } from '../lib/gemini.js';
 
 function applyCors(req: VercelRequest, res: VercelResponse): boolean {
-  const origin = req.headers.origin ?? '';
-    const allowed = process.env.ALLOWED_ORIGIN;
-    if (!allowed || origin !== allowed) return false;
-  if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
+  const origin = (req.headers.origin as string) ?? '';
+  const allowed = process.env.ALLOWED_ORIGIN?.trim();
+
+  let ok: boolean;
+  if (allowed) {
+    // Strict allow-list when ALLOWED_ORIGIN is configured.
+    ok = origin === allowed;
+  } else {
+    // Fallback: same-origin only. The form always calls the API on its own
+    // domain, so accept requests with no Origin (non-CORS) or whose Origin host
+    // matches the deployment host; reject other websites' browsers.
+    const host = req.headers.host ?? '';
+    if (!origin) ok = true;
+    else {
+      try { ok = new URL(origin).host === host; } catch { ok = false; }
+    }
+  }
+
+  if (!ok) return false;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   return true;
