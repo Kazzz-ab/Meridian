@@ -31,13 +31,13 @@ The earlier version was a generic consultancy site (Webflow template framing, th
 ## The AI intake (the one build)
 
 1. `contact.html` posts `{ name, email, enquiry, company?, brand, industry, honeypot }` to `/api/consult`.
-2. The function applies CORS allow-list, in-memory rate limiting (5/min/IP), and a honeypot check.
-3. `validate.ts` (zod) enforces field shapes and caps lengths; `brand`/`industry` are accepted as data only.
-4. `prompt.ts` templates a brand/industry-aware intake prompt, wrapping visitor input in XML tags framed as data (prompt-injection mitigation).
-5. `gemini.ts` calls `gemini-1.5-flash` with a strict JSON `responseSchema`; categories are industry-agnostic (`new_business | booking | quote | support | complaint | other`).
-6. Returns `acknowledgement` to the visitor; `routingSummary` is available to pipe to a CRM/Slack/Sheet via webhook (not persisted in the demo).
+2. The function applies a CORS allow-list, a honeypot check, and rate limiting via `ratelimit.ts` (dual-window in-memory: ≤4/min + ≤30/hour per IP; optional durable Upstash REST layer when env vars are set).
+3. `validate.ts` (zod) enforces field shapes and caps lengths (enquiry ≤1500 chars); `brand`/`industry` are accepted as data only.
+4. `prompt.ts` templates a brand/industry-aware intake prompt that **locks the model to enquiries + bookings only**, wrapping visitor input in XML tags framed as untrusted data (prompt-injection / jailbreak mitigation).
+5. `gemini.ts` calls `gemini-1.5-flash` with a strict JSON `responseSchema` that includes an `onTopic` flag; categories are industry-agnostic (`new_business | booking | quote | support | complaint | other`).
+6. **Server-side scope gate:** if `onTopic` is false, the model's text is discarded and a fixed on-brand refusal is returned; otherwise the acknowledgement is sanitised (code fences/markdown stripped) and hard-capped at 600 chars. `routingSummary` is available to pipe to a CRM/Slack/Sheet via webhook (not persisted in the demo).
 
-Scope guard: stateless one-shot, not a chatbot. One input, one deterministic output shape.
+Scope guard: stateless one-shot, not a chatbot, and not a general assistant — one input, one bounded, deterministic output shape.
 
 ## File map
 
@@ -50,9 +50,10 @@ public/
   style.css      aurora / glass / bento design system, fully responsive + reduced-motion
 api/consult.ts   intake endpoint (CORS, rate limit, honeypot, Gemini)
 lib/
-  prompt.ts      brand/industry-aware prompt builder
-  validate.ts    zod schema + rate limiter
-  gemini.ts      Gemini call + response schema (industry-agnostic categories)
+  prompt.ts      brand/industry-aware, scope-locked prompt builder
+  validate.ts    zod schema + input length caps
+  gemini.ts      Gemini call + response schema + onTopic gate + output sanitiser
+  ratelimit.ts   dual-window in-memory limiter + optional Upstash REST layer
 vercel.json      security headers + function maxDuration
 ```
 
@@ -68,7 +69,7 @@ vercel.json      security headers + function maxDuration
 
 ## Risks & mitigations
 
-- **Prompt injection via the enquiry field** — input wrapped in XML tags, explicitly framed as data; lengths capped in zod. Production with compliance needs would add content filtering before the model.
-- **Form spam** — honeypot + per-IP rate limit.
+- **Misuse as a free general assistant** (code gen, essays, planning, etc.) — the prompt locks scope to enquiries + bookings and the model returns an `onTopic` flag; off-topic input gets a server-supplied canned refusal, never the model's own text.
+- **Prompt injection / jailbreak via the enquiry field** — input wrapped in XML tags, framed as untrusted data; instruction-override and impersonation attempts are treated as off-topic. Output is sanitised (no code fences/markdown) and length-capped.
+- **Form spam / flooding** — honeypot + dual-window per-IP rate limit (in-memory always on; optional durable Upstash REST layer for cross-instance protection, fails open). At scale, enable Vercel WAF.
 - **Config drift / typos** — `render.js` escapes all injected strings and tolerates missing optional fields; keep the zod schema and Gemini `responseSchema` in sync when changing categories.
-- **Rate limiter is in-memory** — resets on cold start; fine for a low-traffic form, swap for a durable store (Upstash/KV) at scale.

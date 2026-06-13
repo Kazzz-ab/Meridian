@@ -58,8 +58,22 @@ public/
   render.js      # render engine: theme, demo animation, count-up, FAQ, switcher
   style.css      # aurora / glass / bento design system
 api/consult.ts   # serverless intake endpoint
-lib/             # prompt.ts · validate.ts · gemini.ts
+lib/             # prompt.ts · validate.ts · gemini.ts · ratelimit.ts
 ```
+
+---
+
+## Guardrails & abuse protection
+
+The intake AI is deliberately **not** a general chatbot — it's locked to one job so it can't be turned into free LLM compute.
+
+- **Scope lock (prompt + server gate).** The model only handles service enquiries and booking requests; anything else (code generation, essays, homework, "scrum"/planning, translation, general Q&A, role-play) is classified off-topic. The structured response carries an `onTopic` flag — when it's `false` the server **discards the model's text** and returns a fixed, on-brand refusal, so model output can never be weaponised.
+- **Injection resistance.** Visitor input is wrapped in XML tags and framed as untrusted data; "ignore previous instructions", developer impersonation, or output-format hijacks are treated as off-topic.
+- **Output sanitising.** Acknowledgements are stripped of code fences/markdown and hard-capped at 600 characters.
+- **Rate limiting (anti-spam).** A dual-window in-memory limiter (≤4/min and ≤30/hour per IP) is always on. Set the optional `UPSTASH_REDIS_REST_*` vars to add a durable, cross-instance limiter (plain REST, no SDK) — it fails open so real visitors are never blocked by limiter outages.
+- **Plus** a CORS allow-list, a honeypot field, and tight input length caps.
+
+At scale, also enable Vercel's WAF / platform rate-limiting in the dashboard.
 
 ---
 
@@ -91,8 +105,10 @@ Set `GOOGLE_GENERATIVE_AI_API_KEY` and `ALLOWED_ORIGIN` in the Vercel project en
 
 | Variable | Description |
 | --- | --- |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | Free key from [aistudio.google.com](https://aistudio.google.com) |
-| `ALLOWED_ORIGIN` | Your deployed site URL (CORS guard) |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | **Required.** Free key from [aistudio.google.com](https://aistudio.google.com) |
+| `ALLOWED_ORIGIN` | **Required.** Your deployed site URL (CORS guard) |
+| `UPSTASH_REDIS_REST_URL` | Optional. Enables durable, cross-instance rate limiting |
+| `UPSTASH_REDIS_REST_TOKEN` | Optional. REST token paired with the URL above |
 
 ---
 

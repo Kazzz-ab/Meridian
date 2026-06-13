@@ -8,7 +8,7 @@ meridian-consult-service/
 ├── ARCHITECTURE.md         # the two parts + white-label mechanism
 ├── STRUCTURE(meridian).md  # this file
 ├── SECURITY.md
-├── .env.example            # GOOGLE_GENERATIVE_AI_API_KEY, ALLOWED_ORIGIN
+├── .env.example            # required keys + optional UPSTASH_REDIS_REST_* (durable rate limit)
 ├── package.json
 ├── tsconfig.json
 ├── vercel.json             # security headers + function maxDuration
@@ -21,12 +21,13 @@ meridian-consult-service/
 │   └── style.css           # aurora / glass / bento design system, responsive + reduced-motion
 │
 ├── api/
-│   └── consult.ts          # serverless intake: CORS → rate limit → honeypot → Gemini
+│   └── consult.ts          # serverless intake: CORS → rate limit → honeypot → validate → Gemini
 │
 └── lib/
-    ├── prompt.ts           # brand/industry-aware prompt builder (injection-guarded)
-    ├── validate.ts         # zod body validation (+ brand/industry) + rate limit + honeypot
-    └── gemini.ts           # Gemini client + JSON response schema (industry-agnostic categories)
+    ├── prompt.ts           # scope-locked, brand/industry-aware prompt (injection-guarded)
+    ├── validate.ts         # zod body validation (+ brand/industry) + honeypot + length caps
+    ├── gemini.ts           # Gemini call + onTopic scope gate + output sanitiser
+    └── ratelimit.ts        # dual-window in-memory limiter + optional Upstash REST layer
 ```
 
 ## The white-label mechanism

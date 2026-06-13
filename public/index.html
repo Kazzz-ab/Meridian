@@ -63,14 +63,12 @@
       <!-- AI INTAKE DEMO -->
       <div class="hero-demo" id="how-it-works-demo">
         <div class="demo-card">
-          <button class="demo-replay" id="demoReplay" aria-label="Replay demo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/></svg>
-            Replay
-          </button>
           <div class="demo-head">
             <span class="live"></span>
             <span class="demo-title" data-demo="heading">Every enquiry, answered in seconds</span>
-            <span class="demo-tag">live intake</span>
+            <button class="demo-replay" id="demoReplay" aria-label="Replay demo" title="Replay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/></svg>
+            </button>
           </div>
           <div class="chat" id="demoChat"></div>
           <div class="demo-foot" id="demoFoot">
@@ -239,7 +237,7 @@
     </div>
     <button class="switcher-toggle" id="switcherToggle">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
-      White-label demo · <span class="lbl-current" id="switcherCurrent">Consultancy</span>
+      <span class="lbl-desc">White-label demo&nbsp;·&nbsp;</span><span class="lbl-current" id="switcherCurrent">Consultancy</span>
     </button>
   </div>
 
