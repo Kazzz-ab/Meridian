@@ -13,3 +13,6 @@ node_modules
 # IDE
 .vscode/settings.json
 .idea
+
+# Local Claude Code tooling (permissions + preview launch config; not part of the product)
+.claude/

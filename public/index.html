@@ -3,539 +3,248 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meridian — Strategic Clarity. Operational Excellence.</title>
-  <meta name="description" content="Helping ambitious companies navigate complexity through data-driven strategy and execution.">
+  <title>Meridian — Turn enquiries into booked clients</title>
+  <meta name="description" content="The conversion-first landing page for service businesses. Reply to every enquiry in seconds, book straight into the diary, and never lose a lead to a slow inbox again.">
+  <meta property="og:title" content="Meridian — Turn enquiries into booked clients">
+  <meta property="og:description" content="A high-converting, white-label landing page for any service business.">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- aurora backdrop -->
+  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">Meridian</a>
+      <a href="index.html" class="nav-logo"><span class="dot"></span><span data-brand="name">Meridian</span><span class="suffix" data-brand="suffix">Advisory</span></a>
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
-        <li><a href="#how-we-work">How We Work</a></li>
-        <li><a href="#case-studies">Case Studies</a></li>
-        <li><a href="#team">About</a></li>
-        <li><a href="#testimonials">Clients</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#process">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
-      <a href="contact.html" class="btn btn-gold">Get Started</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="contact.html" class="btn btn-primary" data-cta="primary">Book a call</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
   <div class="mobile-menu" id="mobileMenu">
     <a href="#services">Services</a>
-    <a href="#how-we-work">How We Work</a>
-    <a href="#case-studies">Case Studies</a>
-    <a href="#team">About</a>
-    <a href="#testimonials">Clients</a>
-    <a href="contact.html" class="btn btn-gold">Get Started</a>
+    <a href="#results">Results</a>
+    <a href="#process">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary" data-cta="primary">Book a call</a>
   </div>
 
   <!-- HERO -->
-  <section class="hero">
-    <canvas id="hero-canvas"></canvas>
-    <div class="hero-content">
-      <h1>Strategic Clarity.<br>Operational Excellence.</h1>
-      <p class="hero-sub">Helping ambitious companies navigate complexity through data-driven strategy and execution.</p>
-      <a href="contact.html" class="btn btn-gold btn-lg">Book a Consultation</a>
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="rating-row">
+          <span class="stars">★★★★★</span>
+          <span class="score" data-hero="ratingScore">4.9</span>
+          <span class="note" data-hero="ratingNote">across 120+ engagements</span>
+        </div>
+        <h1><span data-hero="h1">Your next stage of growth,</span> <span class="accent" data-hero="h1Accent">mapped in 30 days.</span></h1>
+        <p class="hero-sub" data-hero="sub"></p>
+        <div class="hero-cta">
+          <a href="contact.html" class="btn btn-primary btn-lg" data-cta="primary">Book a free discovery call</a>
+          <a href="#how-it-works-demo" class="btn btn-ghost btn-lg" data-hero="ctaSecondary">See how it works</a>
+        </div>
+        <ul class="hero-trust" data-hero="trust"></ul>
+      </div>
+
+      <!-- AI INTAKE DEMO -->
+      <div class="hero-demo" id="how-it-works-demo">
+        <div class="demo-card">
+          <button class="demo-replay" id="demoReplay" aria-label="Replay demo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/></svg>
+            Replay
+          </button>
+          <div class="demo-head">
+            <span class="live"></span>
+            <span class="demo-title" data-demo="heading">Every enquiry, answered in seconds</span>
+            <span class="demo-tag">live intake</span>
+          </div>
+          <div class="chat" id="demoChat"></div>
+          <div class="demo-foot" id="demoFoot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span data-demo="alert">Lead alert sent to partners</span>
+            <span class="latency" id="demoLatency">4.2s</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <span class="marquee-label">Trusted by teams who can't afford to lose a lead</span>
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
 
   <!-- STATS -->
-  <div class="stats-bar">
-    <div class="stats-inner">
-      <div class="stat">
-        <span class="stat-value">94%</span>
-        <span class="stat-label">Client Satisfaction</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value">3×</span>
-        <span class="stat-label">Average ROI</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value">48hr</span>
-        <span class="stat-label">Initial Response</span>
-      </div>
+  <section class="section" style="padding-top: clamp(3rem,5vw,4rem);">
+    <div class="container">
+      <div class="stats reveal" id="statsGrid"></div>
     </div>
-  </div>
+  </section>
 
-  <!-- SECTORS STRIP -->
-  <div class="sectors-strip">
-    <div class="sectors-inner">
-      <span class="sectors-label">Sectors</span>
-      <span class="sector-tag">SaaS &amp; Technology</span>
-      <span class="sector-tag">Financial Services</span>
-      <span class="sector-tag">Professional Services</span>
-      <span class="sector-tag">Logistics &amp; Operations</span>
-      <span class="sector-tag">Legal &amp; Compliance</span>
-      <span class="sector-tag">Healthcare</span>
-      <span class="sector-tag">E-commerce</span>
-    </div>
-  </div>
-
-  <!-- SERVICES -->
+  <!-- SERVICES (BENTO) -->
   <section class="section" id="services">
     <div class="container">
-      <div class="section-header">
-        <h2>Core Competencies</h2>
-        <a href="contact.html" class="link-gold">Start a conversation →</a>
+      <div class="section-head reveal">
+        <span class="kicker" data-services="kicker">What we do</span>
+        <h2 class="h-section" data-services="heading"></h2>
       </div>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon"><i data-lucide="trending-up"></i></div>
-          <h3>Strategy &amp; Growth</h3>
-          <p>Clarify direction, prioritise markets, and build an execution roadmap.</p>
-          <p class="service-detail">12–24 month growth strategies grounded in market data. Deliverables: a prioritised opportunity map, a 90-day execution plan, and a decision-making framework your team can run without us.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i data-lucide="settings-2"></i></div>
-          <h3>Operational Excellence</h3>
-          <p>Eliminate bottlenecks, reduce costs, and build processes that scale.</p>
-          <p class="service-detail">We surface the friction points costing you time and margin, identify the highest-leverage changes, and build the SOPs and tooling to make them stick.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i data-lucide="landmark"></i></div>
-          <h3>Financial Advisory</h3>
-          <p>Fundraising, modelling, and capital allocation for ambitious companies.</p>
-          <p class="service-detail">Financial model builds, investor deck review, runway analysis, and pre-raise readiness assessments. We bring clarity to your numbers and narrative.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i data-lucide="cpu"></i></div>
-          <h3>Technology &amp; AI</h3>
-          <p>Identify where AI and modern tooling create real leverage for your business.</p>
-          <p class="service-detail">We cut through hype to find the two or three AI integrations that move your metrics — practical, commercial, and grounded in what your team can actually maintain.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon"><i data-lucide="scale"></i></div>
-          <h3>Legal &amp; Compliance</h3>
-          <p>Navigate regulatory complexity without slowing down your roadmap.</p>
-          <p class="service-detail">From contract templates to compliance frameworks — we translate legal risk into business decisions and prepare you for due diligence, audits, and board scrutiny.</p>
-        </div>
-      </div>
+      <div class="bento reveal" id="bentoGrid"></div>
     </div>
   </section>
 
-  <!-- CASE STUDIES -->
-  <section class="section section-dark" id="case-studies">
+  <!-- RESULTS -->
+  <section class="section" id="results">
     <div class="container">
-      <div class="section-header">
-        <h2>Case Studies</h2>
-        <a href="contact.html" class="link-gold">Work with us →</a>
+      <div class="section-head reveal">
+        <span class="kicker" data-results="kicker">Proof, not promises</span>
+        <h2 class="h-section" data-results="heading"></h2>
       </div>
-      <div class="case-cards-grid">
-
-        <div class="case-card">
-          <div class="case-card-header">
-            <span class="case-card-tag">Strategy &amp; Growth</span>
-            <h3>Cutting the Sales Cycle by 40%</h3>
-            <p>CAC was 3× the industry benchmark and the sales cycle averaged 90 days, burning runway and slowing growth. We repositioned the ICP, rebuilt outbound around a pain-first narrative, and introduced a product-led trial path.</p>
-          </div>
-          <div class="case-card-roi">
-            <span class="roi-num">40%</span>
-            <span class="roi-desc">Reduction in sales cycle</span>
-          </div>
-          <div class="case-card-client">Series A SaaS (B2B) · Software</div>
-        </div>
-
-        <div class="case-card">
-          <div class="case-card-header">
-            <span class="case-card-tag">Operational Excellence</span>
-            <h3>22-Point On-Time Delivery Turnaround</h3>
-            <p>A 15% late-delivery rate was generating customer churn and driver overtime costs exceeding £200k annually. Full route optimisation audit, new dispatcher SOP, and integration of a lightweight routing tool — no infrastructure overhaul required.</p>
-          </div>
-          <div class="case-card-roi">
-            <span class="roi-num">22pp</span>
-            <span class="roi-desc">On-time delivery improvement</span>
-          </div>
-          <div class="case-card-client">Regional Logistics Operator</div>
-        </div>
-
-        <div class="case-card">
-          <div class="case-card-header">
-            <span class="case-card-tag">Technology &amp; AI</span>
-            <h3>6 Hours of Admin Saved Per Fee-Earner Weekly</h3>
-            <p>Fee-earners were losing approximately 8 billable hours per week to document admin. A 6-week AI-assisted drafting pilot across two practice groups, with training and quality controls built in.</p>
-          </div>
-          <div class="case-card-roi">
-            <span class="roi-num">6 hrs</span>
-            <span class="roi-desc">Admin saved per fee-earner weekly</span>
-          </div>
-          <div class="case-card-client">Mid-size Law Firm · Legal</div>
-        </div>
-
-        <div class="case-card">
-          <div class="case-card-header">
-            <span class="case-card-tag">Financial Advisory</span>
-            <h3>Series A Raise Closed at Target Valuation</h3>
-            <p>Strong product, but a financial model that didn't hold up to investor scrutiny. We rebuilt the 5-year model from first principles, rewrote the investor narrative, and ran three rounds of mock Q&amp;A before roadshow.</p>
-          </div>
-          <div class="case-card-roi">
-            <span class="roi-num">£4.2M</span>
-            <span class="roi-desc">Raised at target valuation</span>
-          </div>
-          <div class="case-card-client">B2B FinTech Startup</div>
-        </div>
-
-      </div>
+      <div class="results-grid reveal" id="resultsGrid"></div>
     </div>
   </section>
 
-  <!-- HOW WE WORK -->
-  <section class="section" id="how-we-work">
+  <!-- PROCESS -->
+  <section class="section" id="process">
     <div class="container">
-      <div class="section-header">
-        <h2>How We Work</h2>
-        <a href="contact.html" class="link-gold">Start the process →</a>
+      <div class="section-head center reveal">
+        <span class="kicker" data-process="kicker">How it works</span>
+        <h2 class="h-section" data-process="heading"></h2>
       </div>
-      <div class="process-grid">
-        <div class="process-step">
-          <div class="process-number">Step 01</div>
-          <h3>Discovery Call</h3>
-          <p>A 45-minute call with a senior partner — no junior handoff. We listen, ask the right questions, and tell you honestly whether we can help. No charge, no obligation.</p>
-        </div>
-        <div class="process-step">
-          <div class="process-number">Step 02</div>
-          <h3>Scoped Proposal</h3>
-          <p>Within 48 hours you receive a written proposal: clear objectives, defined deliverables, a timeline, and a fixed fee. No sliding scope, no surprise invoices.</p>
-        </div>
-        <div class="process-step">
-          <div class="process-number">Step 03</div>
-          <h3>Focused Engagement</h3>
-          <p>We work alongside your team — not around them. Every engagement ends with a 90-day action plan your people can run independently. We build capability, not dependency.</p>
-        </div>
-      </div>
+      <div class="process-grid reveal" id="processGrid"></div>
     </div>
   </section>
 
   <!-- TESTIMONIALS -->
   <section class="section" id="testimonials">
     <div class="container">
-      <h2 class="section-center-heading">What Clients Say</h2>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <span class="quote-mark">&rdquo;</span>
-          <blockquote>Meridian gave us the strategic clarity we'd been missing for 18 months — in six weeks. They asked better questions than any consultant we'd worked with before, and the output was something we actually used.</blockquote>
-          <div class="testimonial-author">
-            <strong>Sarah K.</strong>
-            <span>CEO, B2B SaaS Startup</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <span class="quote-mark">&rdquo;</span>
-          <blockquote>Their financial modelling saved us from a fundraising round that would have diluted us badly. The revised model changed how every investor in the room responded to our unit economics slide.</blockquote>
-          <div class="testimonial-author">
-            <strong>Marcus T.</strong>
-            <span>Founder, FinTech Scale-up</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <span class="quote-mark">&rdquo;</span>
-          <blockquote>Practical, direct, and commercially minded. No fluff, no 200-slide deck. They found the three things that mattered and helped us fix them. We've seen the results in our P&amp;L.</blockquote>
-          <div class="testimonial-author">
-            <strong>James R.</strong>
-            <span>COO, Professional Services Firm</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <span class="quote-mark">&rdquo;</span>
-          <blockquote>We were sceptical about AI making a real difference in a law firm. The pilot Meridian designed changed our minds. Six hours a week back per fee-earner is real money.</blockquote>
-          <div class="testimonial-author">
-            <strong>Priya N.</strong>
-            <span>Managing Partner, Mid-size Law Firm</span>
-          </div>
+      <div class="section-head center reveal">
+        <span class="kicker" data-tst="kicker">Client voices</span>
+        <h2 class="h-section" data-tst="heading"></h2>
+      </div>
+      <div class="tst-grid reveal" id="tstGrid"></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="kicker" data-pricing="kicker">Transparent pricing</span>
+        <h2 class="h-section" data-pricing="heading"></h2>
+        <p class="lede" data-pricing="note"></p>
+      </div>
+      <div class="pricing-grid reveal" id="pricingGrid"></div>
+    </div>
+  </section>
+
+  <!-- GUARANTEE -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="guarantee reveal">
+        <div class="guarantee-badge" id="guaranteeIcon"></div>
+        <div>
+          <h3 data-guarantee="title"></h3>
+          <p data-guarantee="text"></p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TEAM -->
-  <section class="section section-dark" id="team">
+  <!-- FAQ -->
+  <section class="section" id="faq">
     <div class="container">
-      <h2 class="section-center-heading">The Team</h2>
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="team-avatar">AM</div>
-          <h3 class="team-name">Alex Meridian</h3>
-          <p class="team-role">Managing Partner</p>
-          <p class="team-bio">15 years in strategy consulting. Former McKinsey engagement manager across EMEA. Obsessed with execution, not decks — every engagement ends with a 90-day action plan, not a report.</p>
-          <div class="team-specialisms">
-            <span>Strategy</span><span>Growth</span><span>Fundraising</span>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="team-avatar">JE</div>
-          <h3 class="team-name">Jordan Ellis</h3>
-          <p class="team-role">Operations Lead</p>
-          <p class="team-bio">Built and scaled operations teams at three Series B+ companies before moving to advisory. Fixes what's broken fast, then builds the systems to keep it fixed.</p>
-          <div class="team-specialisms">
-            <span>Operations</span><span>Process Design</span><span>Team Structure</span>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="team-avatar">SC</div>
-          <h3 class="team-name">Sam Carter</h3>
-          <p class="team-role">Technology &amp; AI Lead</p>
-          <p class="team-bio">Engineering background, business brain. Spent five years as a CTO before pivoting to advisory. Helps non-technical founders make smart technology bets and avoid expensive mistakes.</p>
-          <div class="team-specialisms">
-            <span>Technology</span><span>AI Integration</span><span>Product</span>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="team-avatar">RO</div>
-          <h3 class="team-name">Rachel Osei</h3>
-          <p class="team-role">Financial Advisory</p>
-          <p class="team-bio">Chartered accountant with a decade in corporate finance. Has worked on both sides of the table — as an operator and as an investor — which means she knows what due diligence actually looks like.</p>
-          <div class="team-specialisms">
-            <span>Financial Modelling</span><span>Fundraising</span><span>M&amp;A Readiness</span>
-          </div>
-        </div>
+      <div class="section-head center reveal">
+        <span class="kicker" data-faq="kicker">Questions, answered</span>
+        <h2 class="h-section" data-faq="heading"></h2>
       </div>
+      <div class="faq-wrap reveal" id="faqWrap"></div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section class="cta-section">
-    <h2>Ready to move faster?</h2>
-    <p>Book a free 45-minute discovery call with a senior partner. No junior handoff, no commitment until you're sure.</p>
-    <a href="contact.html" class="btn btn-gold btn-lg">Book a Free Consultation</a>
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <h2 data-cta-block="h"></h2>
+        <p data-cta-block="p"></p>
+        <a href="contact.html" class="btn btn-primary btn-lg" data-cta-block="btn">Book your free call</a>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo">Meridian</a>
-        <small>&copy; 2026 Meridian. All rights reserved.</small>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"><span class="dot"></span><span data-brand="name">Meridian</span><span class="suffix" data-brand="suffix">Advisory</span></a>
+          <p>The conversion-first landing page for service businesses that win by replying first.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#process">How it works</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="contact.html">Book a call</a></li>
+            <li><a data-brand="emailLink" href="#"><span data-brand="email">hello@meridian-advisory.com</span></a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#services">Strategy &amp; Growth</a></li>
-          <li><a href="#services">Operational Excellence</a></li>
-          <li><a href="#services">Financial Advisory</a></li>
-          <li><a href="#services">Technology &amp; AI</a></li>
-          <li><a href="#services">Legal &amp; Compliance</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#team">About</a></li>
-          <li><a href="#case-studies">Case Studies</a></li>
-          <li><a href="#testimonials">Clients</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="contact.html">Book a Consultation</a></li>
-          <li><a href="mailto:hello@meridian-advisory.com">hello@meridian-advisory.com</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <span>&copy; <span id="year">2026</span> <span data-brand="legal">Meridian Advisory Ltd.</span> All rights reserved.</span>
+        <span>Built on Meridian — white-label landing system</span>
       </div>
     </div>
   </footer>
 
-  <!-- ── SCRIPTS ─────────────────────────────────────────────────────────────── -->
+  <!-- STICKY MOBILE CTA -->
+  <div class="mobile-cta">
+    <div class="mc-text"><strong data-mc="title">Free discovery call</strong><span data-mc="sub">Reply in under 60 seconds</span></div>
+    <a href="contact.html" class="btn btn-primary" data-cta="primary">Book now</a>
+  </div>
+
+  <!-- INDUSTRY SWITCHER (demo) -->
+  <div class="switcher" id="switcher" hidden>
+    <div class="switcher-panel" id="switcherPanel">
+      <div class="sp-head">Preview as industry</div>
+    </div>
+    <button class="switcher-toggle" id="switcherToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
+      White-label demo · <span class="lbl-current" id="switcherCurrent">Consultancy</span>
+    </button>
+  </div>
+
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
-  <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <script>
-    // ── Icons ──────────────────────────────────────────────────────────────────
-    lucide.createIcons();
-
-    // ── Mobile nav ────────────────────────────────────────────────────────────
-    const toggle = document.getElementById('navToggle');
-    const menu   = document.getElementById('mobileMenu');
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      menu.classList.toggle('open');
-    });
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      toggle.classList.remove('open');
-      menu.classList.remove('open');
-    }));
-
-    // ── GSAP ──────────────────────────────────────────────────────────────────
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Hero entrance — staggered
-    gsap.timeline({ delay: 0.1 })
-      .from('.hero h1',   { opacity: 0, y: 28, duration: 1,    ease: 'power3.out' })
-      .from('.hero-sub',  { opacity: 0, y: 18, duration: 0.8,  ease: 'power3.out' }, '-=0.5')
-      .from('.hero .btn', { opacity: 0, y: 14, duration: 0.65, ease: 'power3.out' }, '-=0.4');
-
-    // Stats
-    gsap.from('.stats-inner .stat', {
-      opacity: 0, y: 22, stagger: 0.13, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: '.stats-bar', start: 'top 88%', once: true }
-    });
-
-    // Sectors tags
-    gsap.from('.sector-tag', {
-      opacity: 0, y: 10, stagger: 0.06, duration: 0.5, ease: 'power2.out',
-      scrollTrigger: { trigger: '.sectors-strip', start: 'top 90%', once: true }
-    });
-
-    // Section headers
-    gsap.utils.toArray('.section-header').forEach(el => {
-      gsap.from(el, {
-        opacity: 0, y: 22, duration: 0.7, ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 86%', once: true }
-      });
-    });
-    gsap.from('.section-center-heading', {
-      opacity: 0, y: 22, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: '.section-center-heading', start: 'top 86%', once: true }
-    });
-
-    // Service cards — staggered left-to-right
-    gsap.from('.service-card', {
-      opacity: 0, y: 32, stagger: 0.1, duration: 0.72, ease: 'power2.out',
-      scrollTrigger: { trigger: '.services-grid', start: 'top 82%', once: true }
-    });
-
-    // Case cards
-    gsap.from('.case-card', {
-      opacity: 0, y: 32, stagger: 0.13, duration: 0.72, ease: 'power2.out',
-      scrollTrigger: { trigger: '.case-cards-grid', start: 'top 82%', once: true }
-    });
-
-    // Process steps
-    gsap.from('.process-step', {
-      opacity: 0, y: 28, stagger: 0.16, duration: 0.72, ease: 'power2.out',
-      scrollTrigger: { trigger: '.process-grid', start: 'top 82%', once: true }
-    });
-
-    // Testimonials
-    gsap.from('.testimonial-card', {
-      opacity: 0, y: 28, stagger: 0.13, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: '.testimonials-grid', start: 'top 82%', once: true }
-    });
-
-    // Team cards
-    gsap.from('.team-card', {
-      opacity: 0, y: 28, stagger: 0.1, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: '.team-grid', start: 'top 82%', once: true }
-    });
-
-    // CTA block
-    gsap.from('.cta-section h2, .cta-section p, .cta-section .btn', {
-      opacity: 0, y: 22, stagger: 0.16, duration: 0.72, ease: 'power2.out',
-      scrollTrigger: { trigger: '.cta-section', start: 'top 82%', once: true }
-    });
-
-    // ── Three.js — dual rotating icosahedra + star field ─────────────────────
-    // Unique to Meridian: geometric/corporate precision, not the portfolio's
-    // random particle scatter.
-    (function initHeroCanvas() {
-      const canvas  = document.getElementById('hero-canvas');
-      const section = document.querySelector('.hero');
-      if (!canvas || !section || !window.THREE) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (window.innerWidth < 600) return;
-
-      let W = section.offsetWidth;
-      let H = section.offsetHeight;
-
-      const scene    = new THREE.Scene();
-      const camera   = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
-      camera.position.z = 6.5;
-
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setSize(W, H);
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-
-      // ── Primary icosahedron — gold wireframe ──
-      const icoGeo  = new THREE.IcosahedronGeometry(2.4, 2);
-      const wireGeo = new THREE.WireframeGeometry(icoGeo);
-      const wireMat = new THREE.LineBasicMaterial({
-        color: 0xf5c430, transparent: true, opacity: 0.11,
-      });
-      const ico = new THREE.LineSegments(wireGeo, wireMat);
-      scene.add(ico);
-
-      // ── Inner icosahedron — cyan wireframe, counter-rotates ──
-      const ico2Geo  = new THREE.IcosahedronGeometry(1.35, 1);
-      const wire2Geo = new THREE.WireframeGeometry(ico2Geo);
-      const wire2Mat = new THREE.LineBasicMaterial({
-        color: 0x4ecdc4, transparent: true, opacity: 0.07,
-      });
-      const ico2 = new THREE.LineSegments(wire2Geo, wire2Mat);
-      scene.add(ico2);
-
-      // ── Background star field — spherically distributed ──
-      const STARS = 160;
-      const starPos = new Float32Array(STARS * 3);
-      for (let i = 0; i < STARS; i++) {
-        const r = 5 + Math.random() * 9;
-        const t = Math.random() * Math.PI * 2;
-        const p = Math.acos(2 * Math.random() - 1);
-        starPos[i*3]   = r * Math.sin(p) * Math.cos(t);
-        starPos[i*3+1] = r * Math.sin(p) * Math.sin(t);
-        starPos[i*3+2] = (Math.random() - .5) * 4;
-      }
-      const starGeo = new THREE.BufferGeometry();
-      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-      scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
-        color: 0xb8d4f0, size: 0.018, transparent: true, opacity: 0.28, sizeAttenuation: true,
-      })));
-
-      // ── Mouse tilt ──
-      let targetRX = 0, targetRY = 0, currRX = 0, currRY = 0;
-      section.addEventListener('mousemove', e => {
-        const r = section.getBoundingClientRect();
-        targetRY =  ((e.clientX - r.left) / W - .5) * 0.9;
-        targetRX = -((e.clientY - r.top)  / H - .5) * 0.6;
-      });
-      section.addEventListener('mouseleave', () => { targetRX = 0; targetRY = 0; });
-
-      // ── Animate ──
-      let autoY = 0, autoX = 0, lastT = 0, rafId;
-      function tick(t) {
-        rafId = requestAnimationFrame(tick);
-        const dt = Math.min((t - lastT) / 1000, 0.05);
-        lastT = t;
-
-        autoY += dt * 0.2;
-        autoX += dt * 0.1;
-
-        currRX += (targetRX - currRX) * 0.045;
-        currRY += (targetRY - currRY) * 0.045;
-
-        // Outer: steady forward rotation + mouse tilt
-        ico.rotation.y = autoY + currRY;
-        ico.rotation.x = autoX + currRX;
-
-        // Inner: counter-rotates for a gyroscope feel
-        ico2.rotation.y = -(autoY * 0.65) + currRY * 1.3;
-        ico2.rotation.x = -(autoX * 0.8)  + currRX;
-        ico2.rotation.z =   autoY * 0.35;
-
-        // Breathe opacity
-        wireMat.opacity  = 0.09 + Math.sin(autoY * 1.1) * 0.03;
-        wire2Mat.opacity = 0.055 + Math.cos(autoY * 0.7) * 0.02;
-
-        renderer.render(scene, camera);
-      }
-      rafId = requestAnimationFrame(tick);
-
-      window.addEventListener('resize', () => {
-        W = section.offsetWidth;
-        H = section.offsetHeight;
-        renderer.setSize(W, H);
-        camera.aspect = W / H;
-        camera.updateProjectionMatrix();
-      });
-    })();
-  </script>
+  <script src="config.js"></script>
+  <script src="render.js"></script>
 </body>
 </html>

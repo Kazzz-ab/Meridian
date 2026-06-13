@@ -1,52 +1,74 @@
-# Meridian - Architecture
+# Meridian — Architecture
 
-> A professional-services website template (built in Webflow) with one custom touch: an **AI-powered consultation request form** backed by a small serverless function that calls Gemini. Designed as a reusable template that reskins across industries (consulting, legal, financial advisory, agencies).
+> A **white-label, conversion-first landing page** for service businesses, with an **instant AI intake** as the core feature. The entire site reskins from one config file, so a single codebase resells to any service industry (consultancy, legal, dental, home services, fitness, …).
 
-## "Done" spec (v1 scope)
+## "Done" spec
 
-A polished, responsive Webflow site with: a multi-service layout, trust signals, a case-study showcase (CMS-driven, with ROI metrics), and a lead form. The form differentiator: on submit, a serverless function sends the enquiry to Gemini, which returns a tailored acknowledgement + an internal routing summary. Appointment booking and CRM are **embedded third-party tools**, not built. Deployed: Webflow hosting for the site, Vercel for the function.
+A premium, responsive landing page whose copy and design are driven entirely by `public/config.js`. The page leads with a *live demonstration* of the product (an animated AI-intake card), backs claims with social proof and measured results, and drives to one action: enquire / book. The one piece of real backend is a serverless function that turns a form submission into (a) a tailored, on-brand acknowledgement for the visitor and (b) a structured routing summary for the business.
+
+## Why the rebuild
+
+The earlier version was a generic consultancy site (Webflow template framing, three.js hero, consulting-only copy). Market research reframed it:
+
+- **Speed-to-lead is the product.** 21× conversion lift inside 5 minutes; 78% buy from whoever replies first; most businesses miss the window. So the hero *shows* an enquiry being answered in seconds.
+- **White-label resale is the business model.** Agencies want one-file reskins, branded everything, lead alerts, and booking. So all content moved into `config.js` and the theme into three CSS variables.
+- **2026 design conventions signal premium.** Aurora gradients, glassmorphism, bento grid, large display serif.
 
 ## Two parts, two natures
 
-| Part | Built in | Notes |
-|------|----------|-------|
-| The website | **Webflow** (no-code) | Design, layout, CMS, responsiveness - done in the Designer, not in a repo |
-| The AI form | **Vercel serverless function** (TypeScript) | The only code in this project; lives in the repo described below |
+| Part | Built with | Notes |
+|------|-----------|-------|
+| The site | Static HTML + vanilla-JS render engine + CSS | No framework, no build step. `render.js` reads `config.js` and paints every section; switching industry re-themes and re-renders in place. |
+| The intake | Vercel serverless function (TypeScript) | The only server code. Validates, rate-limits, calls Gemini, returns acknowledgement + routing summary. |
 
-Be honest in the case study: this is a **Webflow** piece. The engineering signal is the clean AI integration, not a hand-coded frontend.
+## The white-label mechanism
 
-## The AI consultation form (the one build)
+- **`config.js`** is the product surface. `MERIDIAN_CONFIG.industries[key]` holds a complete skin: brand, 3 theme colours, and copy for every section.
+- **Theme** = three CSS custom properties (`--accent`, `--accent-2`, `--accent-ink`). Every gradient, glow, button, and chip derives from them via `color-mix()`.
+- **Persistence**: chosen skin is stored in `localStorage` and honoured by both `index.html` and `contact.html`, and can be forced with `?industry=<key>`.
+- **Production lock**: set `showIndustrySwitcher: false` and `defaultIndustry` to ship a single client build with the demo switcher removed.
 
-1. Webflow form posts to the Vercel function (`/api/consult`).
-2. Function validates input (name, email, enquiry), rate-limits, and calls Gemini with a structured prompt.
-3. Gemini returns: a warm, tailored acknowledgement shown to the visitor, and a concise internal **routing summary** (category, urgency, suggested service) for the business.
-4. Optional: pipe the lead + summary to a CRM/Sheet via Zapier/Make.
+## The AI intake (the one build)
 
-Scope guard: this is a **one-day** build. The serverless function is small. Resist turning it into a chatbot.
+1. `contact.html` posts `{ name, email, enquiry, company?, brand, industry, honeypot }` to `/api/consult`.
+2. The function applies CORS allow-list, in-memory rate limiting (5/min/IP), and a honeypot check.
+3. `validate.ts` (zod) enforces field shapes and caps lengths; `brand`/`industry` are accepted as data only.
+4. `prompt.ts` templates a brand/industry-aware intake prompt, wrapping visitor input in XML tags framed as data (prompt-injection mitigation).
+5. `gemini.ts` calls `gemini-1.5-flash` with a strict JSON `responseSchema`; categories are industry-agnostic (`new_business | booking | quote | support | complaint | other`).
+6. Returns `acknowledgement` to the visitor; `routingSummary` is available to pipe to a CRM/Slack/Sheet via webhook (not persisted in the demo).
 
-## Webflow structure
+Scope guard: stateless one-shot, not a chatbot. One input, one deterministic output shape.
 
-- **CMS Collections:** Services, Case Studies (with ROI metric fields), Testimonials, Team.
-- **Pages:** Home, Services (+ dynamic service template), Case Studies (+ dynamic template), About, Contact.
-- **Reusability:** symbols/components + CMS mean reskinning to a new industry is content + brand tokens, not a rebuild.
+## File map
 
-## What is embedded, not built
-
-- **Appointment booking** - Calendly embed.
-- **CRM integration** - Zapier/Make -> HubSpot free tier or Google Sheet.
-- **Real-time availability calendar / client portal** - explicitly **deferred** (out of scope for v1).
+```
+public/
+  index.html     structure + data-* slots only
+  contact.html   form + booking card, self-contained config-aware script
+  config.js      all skins (brand, theme, copy)
+  render.js      theme + section rendering + demo animation + count-up + FAQ + switcher
+  style.css      aurora / glass / bento design system, fully responsive + reduced-motion
+api/consult.ts   intake endpoint (CORS, rate limit, honeypot, Gemini)
+lib/
+  prompt.ts      brand/industry-aware prompt builder
+  validate.ts    zod schema + rate limiter
+  gemini.ts      Gemini call + response schema (industry-agnostic categories)
+vercel.json      security headers + function maxDuration
+```
 
 ## Tech decisions & rationale
 
 | Decision | Choice | Why |
 |----------|--------|-----|
-| Site | Webflow | Fast, polished, CMS-driven, no-code - the right tool for a marketing site |
-| AI form backend | Vercel serverless + TS | Smallest possible footprint for the one custom feature; keys server-side |
-| LLM | Gemini API | Tailored acknowledgement + structured routing summary |
-| Booking/CRM | Calendly + Zapier | Embed proven tools; do not rebuild commodity functionality |
+| Frontend | Static HTML/CSS + tiny vanilla render engine | Instant load (speed = conversion), no build step, trivially hostable; the "fancy" is in CSS, not a framework. |
+| White-label | Single `config.js` + CSS variables | One file reskins the whole site — the exact thing agencies resell. |
+| Backend | Vercel serverless + TS | Smallest footprint for the one real feature; API key stays server-side. |
+| LLM | Gemini 1.5 Flash | Fast, cheap per call, strong structured JSON output for the routing summary. |
+| Booking | Drop-in scheduler slot | Embed Calendly/Cal.com; don't rebuild commodity scheduling. |
 
 ## Risks & mitigations
 
-- **Scope creep on the AI form** - it is a stateless one-shot, not a chatbot. One day, then stop.
-- **Form spam** - rate-limit + honeypot field on the function.
-- **Confusing the portfolio story** - present clearly as a Webflow template with a smart AI integration, not as custom-coded.
+- **Prompt injection via the enquiry field** — input wrapped in XML tags, explicitly framed as data; lengths capped in zod. Production with compliance needs would add content filtering before the model.
+- **Form spam** — honeypot + per-IP rate limit.
+- **Config drift / typos** — `render.js` escapes all injected strings and tolerates missing optional fields; keep the zod schema and Gemini `responseSchema` in sync when changing categories.
+- **Rate limiter is in-memory** — resets on cold start; fine for a low-traffic form, swap for a durable store (Upstash/KV) at scale.
